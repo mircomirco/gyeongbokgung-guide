@@ -1,20 +1,13 @@
 # GUNG — Guida GPS a Gyeongbokgung
 
-Web app mobile in italiano per orientarsi nel palazzo Gyeongbokgung, individuare la struttura più vicina e scoprirne la storia.
+Sito statico mobile in italiano: nessuna installazione e nessuna compilazione.
 
-## Funzioni
+I soli file dell'app sono:
 
-- geolocalizzazione GPS eseguita solo nel browser;
-- mappa interattiva con 10 luoghi principali;
-- distanza dalla struttura più vicina;
-- schede storiche e lettura vocale;
-- percorso manuale disponibile anche senza permesso GPS.
+- `index.html`
+- `styles.css`
+- `app.js`
+- `favicon.svg`
+- `manifest.webmanifest`
 
-## Sviluppo
-
-```bash
-npm install
-npm run dev
-```
-
-La pubblicazione su GitHub Pages avviene automaticamente a ogni push sul branch `main`.
+Per provarlo basta aprire `index.html`. Su GitHub Pages viene pubblicato direttamente dal branch `main`.

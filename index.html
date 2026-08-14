@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#183c35">
+  <meta name="description" content="Guida GPS italiana al palazzo Gyeongbokgung">
+  <title>GUNG — Guida GPS a Gyeongbokgung</title>
+  <link rel="icon" href="favicon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <header class="topbar">
+      <div class="brand"><span class="brandMark">景</span><span><b>Gyeongbokgung</b><small>La tua guida nel palazzo</small></span></div>
+      <button id="gpsButton" class="gpsButton" aria-label="Trova la mia posizione"><span class="targetIcon">⌾</span><span id="gpsLabel">Localizzami</span></button>
+    </header>
+
+    <section id="mapArea" class="mapArea" aria-label="Mappa interattiva del palazzo">
+      <div class="mountain">BUGAKSAN · 북악산</div><div class="mapGrid"></div><div class="axis"></div>
+      <div class="pond pondNorth"></div><div class="pond pondWest"></div><div class="garden">GIARDINI REALI</div>
+      <div class="compass"><b>N</b><span>↑</span></div><div class="mapHint">Tocca un luogo per scoprirlo</div>
+    </section>
+    <div id="notice" class="notice" hidden></div>
+
+    <section id="storySheet" class="storySheet open">
+      <button id="sheetHandle" class="sheetHandle" aria-label="Riduci scheda"><span></span></button>
+      <div class="storyTop"><div><p id="eyebrow" class="eyebrow"></p><h1 id="placeName"></h1><p id="placeMeta" class="korean"></p></div><div id="stopNumber" class="stopNumber"></div></div>
+      <p id="placeStory" class="lead"></p><p id="placeDetail" class="detail"></p>
+      <div class="actions"><button id="listenButton">▷ Ascolta</button><span id="duration"></span></div>
+    </section>
+
+    <section class="routeSection">
+      <div class="sectionTitle"><div><p class="eyebrow">ESPLORA</p><h2 id="routeTitle">Percorso consigliato</h2></div><span>10 luoghi</span></div>
+      <div id="placeList" class="placeList"></div>
+    </section>
+    <footer><b>궁 · GUNG</b><p>Contenuti culturali sintetici per la visita. Verifica sempre indicazioni e aree accessibili sul posto.</p><a href="https://www.royalpalace.go.kr/" target="_blank" rel="noreferrer">Sito ufficiale del palazzo ↗</a></footer>
+  </main>
+  <script src="app.js" defer></script>
+</body>
+</html>
