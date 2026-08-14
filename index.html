@@ -14,6 +14,7 @@
   <link rel="icon" href="favicon.svg">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="preload" href="gyeonghoeru-hero.jpg" as="image">
+  <link rel="stylesheet" href="maplibre-gl.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -42,14 +43,16 @@
       <div class="mapLegend"><span><i class="legendPlace"></i> Luoghi</span><span><i class="legendYou"></i> Tu</span></div>
     </section>
 
-    <section id="mapArea" class="mapArea" aria-label="Mappa interattiva del palazzo">
-      <div class="mountain"><span>북악산</span><b>BUGAKSAN</b></div>
-      <div class="mapGrid"></div><div class="axis"></div>
-      <div class="courtyard c1"></div><div class="courtyard c2"></div><div class="courtyard c3"></div>
-      <div class="pond pondNorth"><span>Hyangwonji</span></div><div class="pond pondWest"><span>Gyeonghoeru</span></div>
-      <div class="garden">GIARDINI REALI</div>
-      <div class="compass"><b>N</b><span>↑</span></div>
-      <div class="mapHint"><span>＋</span> Tocca un luogo</div>
+    <section id="mapArea" class="mapArea" aria-label="Mappa tridimensionale interattiva del palazzo">
+      <div id="map3d" class="map3d"></div>
+      <div id="mapLoading" class="mapLoading"><span></span><b>Costruisco il palazzo in 3D…</b></div>
+      <div class="mapToolbar" aria-label="Controlli della mappa">
+        <button id="viewToggle" type="button" aria-label="Passa alla vista bidimensionale"><span>◇</span><b>2D</b></button>
+        <button id="northButton" type="button" aria-label="Orienta la mappa verso nord"><span>↑</span><b>NORD</b></button>
+      </div>
+      <div class="mapStatus"><span class="statusDot"></span><span><small id="mapModeLabel">VISTA 3D</small><b id="mapStatusText">Trascina per esplorare</b></span></div>
+      <div class="mapHint"><span>↕</span> Inclina con due dita</div>
+      <div id="mapError" class="mapError" hidden><b>Mappa 3D non disponibile</b><span>Puoi continuare la visita usando l’elenco delle tappe.</span></div>
     </section>
     <div id="notice" class="notice" hidden></div>
 
@@ -83,9 +86,11 @@
     <footer>
       <div class="footerBrand"><span>景</span><div><b>GUNG</b><small>GYEONGBOKGUNG PALACE GUIDE</small></div></div>
       <p>Contenuti culturali sintetici per accompagnare la visita. Verifica sempre indicazioni e aree accessibili sul posto.</p>
+      <p class="mapCredits">Mappa: <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · Dati © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a></p>
       <div class="footerLinks"><a href="https://www.royalpalace.go.kr/" target="_blank" rel="noreferrer">Sito ufficiale ↗</a><a href="#top">Torna su ↑</a></div>
     </footer>
   </main>
+  <script src="maplibre-gl.js"></script>
   <script src="app.js" defer></script>
 </body>
 </html>

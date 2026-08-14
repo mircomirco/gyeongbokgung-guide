@@ -2,12 +2,16 @@
 
 Sito statico mobile in italiano: nessuna installazione e nessuna compilazione.
 
-I soli file dell'app sono:
+I file principali dell'app sono:
 
 - `index.html`
 - `styles.css`
 - `app.js`
+- `maplibre-gl.js` e `maplibre-gl.css`
+- `palace-buildings.geojson`
 - `favicon.svg`
 - `manifest.webmanifest`
 
-Per provarlo basta aprire `index.html`. Su GitHub Pages viene pubblicato direttamente dal branch `main`.
+MapLibre è incluso direttamente nel repository: non servono npm, pacchetti o compilazione. La cartografia usa OpenFreeMap e dati © OpenStreetMap contributors; richiede una connessione internet per caricare le tessere della mappa.
+
+Su GitHub Pages il sito viene pubblicato direttamente dal branch `main`.
