@@ -3,39 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#183c35">
-  <meta name="description" content="Guida GPS italiana al palazzo Gyeongbokgung">
+  <meta name="theme-color" content="#102f2a">
+  <meta name="description" content="Guida GPS italiana al palazzo Gyeongbokgung: mappa, luoghi vicini e storie della corte Joseon.">
+  <meta property="og:title" content="GUNG — Gyeongbokgung, Seoul">
+  <meta property="og:description" content="La tua guida geolocalizzata nel palazzo reale.">
+  <meta property="og:image" content="https://mircomirco.github.io/gyeongbokgung-guide/og.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mircomirco.github.io/gyeongbokgung-guide/">
   <title>GUNG — Guida GPS a Gyeongbokgung</title>
   <link rel="icon" href="favicon.svg">
   <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="gyeonghoeru-hero.jpg" as="image">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main>
-    <header class="topbar">
-      <div class="brand"><span class="brandMark">景</span><span><b>Gyeongbokgung</b><small>La tua guida nel palazzo</small></span></div>
-      <button id="gpsButton" class="gpsButton" aria-label="Trova la mia posizione"><span class="targetIcon">⌾</span><span id="gpsLabel">Localizzami</span></button>
-    </header>
+    <section class="hero" aria-labelledby="heroTitle">
+      <img class="heroImage" src="gyeonghoeru-hero.jpg" alt="Il padiglione Gyeonghoeru riflesso nel suo stagno al tramonto">
+      <div class="heroShade"></div><div class="heroPattern" aria-hidden="true"></div>
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="GUNG, torna all’inizio"><span class="brandMark">景</span><span><b>GUNG</b><small>궁 · Palace guide</small></span></a>
+        <span class="placeChip"><i></i> Gyeongbokgung · Seoul</span>
+      </header>
+      <div id="top" class="heroCopy">
+        <p class="heroKicker"><span>1395</span> Il palazzo principale dei Joseon</p>
+        <h1 id="heroTitle">Cammina dentro<br><em>la storia.</em></h1>
+        <p>Una guida italiana che riconosce dove sei e ti racconta ciò che hai davanti.</p>
+      </div>
+      <div class="locatePanel">
+        <div class="locateText"><span class="pulseDot"></span><span><small>GUIDA DAL VIVO</small><strong id="locationPrompt">Scopri cosa c’è vicino a te</strong></span></div>
+        <button id="gpsButton" class="gpsButton" aria-label="Trova la mia posizione"><span class="targetIcon">⌾</span><span id="gpsLabel">Localizzami</span></button>
+      </div>
+      <a class="photoCredit" href="https://commons.wikimedia.org/wiki/File:Seoul_Gyeongbok_Palace.jpg" target="_blank" rel="noreferrer">Foto: Bridget Coila · CC BY-SA 2.0</a>
+    </section>
+
+    <section class="mapIntro">
+      <div><p class="sectionKicker">ORIENTATI</p><h2>La mappa del palazzo</h2></div>
+      <div class="mapLegend"><span><i class="legendPlace"></i> Luoghi</span><span><i class="legendYou"></i> Tu</span></div>
+    </section>
 
     <section id="mapArea" class="mapArea" aria-label="Mappa interattiva del palazzo">
-      <div class="mountain">BUGAKSAN · 북악산</div><div class="mapGrid"></div><div class="axis"></div>
-      <div class="pond pondNorth"></div><div class="pond pondWest"></div><div class="garden">GIARDINI REALI</div>
-      <div class="compass"><b>N</b><span>↑</span></div><div class="mapHint">Tocca un luogo per scoprirlo</div>
+      <div class="mountain"><span>북악산</span><b>BUGAKSAN</b></div>
+      <div class="mapGrid"></div><div class="axis"></div>
+      <div class="courtyard c1"></div><div class="courtyard c2"></div><div class="courtyard c3"></div>
+      <div class="pond pondNorth"><span>Hyangwonji</span></div><div class="pond pondWest"><span>Gyeonghoeru</span></div>
+      <div class="garden">GIARDINI REALI</div>
+      <div class="compass"><b>N</b><span>↑</span></div>
+      <div class="mapHint"><span>＋</span> Tocca un luogo</div>
     </section>
     <div id="notice" class="notice" hidden></div>
 
-    <section id="storySheet" class="storySheet open">
+    <section id="storySheet" class="storySheet open" aria-live="polite">
       <button id="sheetHandle" class="sheetHandle" aria-label="Riduci scheda"><span></span></button>
-      <div class="storyTop"><div><p id="eyebrow" class="eyebrow"></p><h1 id="placeName"></h1><p id="placeMeta" class="korean"></p></div><div id="stopNumber" class="stopNumber"></div></div>
+      <div class="storyTop">
+        <div class="storyIdentity"><p id="eyebrow" class="eyebrow"></p><h2 id="placeName"></h2><p id="placeMeta" class="korean"></p></div>
+        <div id="stopNumber" class="stopNumber"></div>
+      </div>
+      <div class="storyRule"><span></span><i>宮</i></div>
       <p id="placeStory" class="lead"></p><p id="placeDetail" class="detail"></p>
-      <div class="actions"><button id="listenButton">▷ Ascolta</button><span id="duration"></span></div>
+      <div class="actions">
+        <button id="listenButton"><span class="playIcon">▶</span><span><small>AUDIOGUIDA</small><b>Ascolta la storia</b></span></button>
+        <span id="duration" class="duration"></span>
+      </div>
     </section>
 
     <section class="routeSection">
-      <div class="sectionTitle"><div><p class="eyebrow">ESPLORA</p><h2 id="routeTitle">Percorso consigliato</h2></div><span>10 luoghi</span></div>
+      <div class="routeHeader">
+        <p class="sectionKicker">DIECI TAPPE · 44 MINUTI</p>
+        <div class="sectionTitle"><h2 id="routeTitle">Percorso consigliato</h2><span>Da sud a nord</span></div>
+        <p class="routeIntro">Segui l’asse reale dal portale della città fino ai giardini privati della corte.</p>
+      </div>
       <div id="placeList" class="placeList"></div>
     </section>
-    <footer><b>궁 · GUNG</b><p>Contenuti culturali sintetici per la visita. Verifica sempre indicazioni e aree accessibili sul posto.</p><a href="https://www.royalpalace.go.kr/" target="_blank" rel="noreferrer">Sito ufficiale del palazzo ↗</a></footer>
+
+    <section class="visitNote">
+      <span class="seal">궁</span><div><p class="sectionKicker">PRIMA DI PROSEGUIRE</p><h2>Guarda in alto.</h2><p>I colori sotto le gronde si chiamano <em>dancheong</em>: proteggevano il legno e dichiaravano il rango dell’edificio.</p></div>
+    </section>
+
+    <footer>
+      <div class="footerBrand"><span>景</span><div><b>GUNG</b><small>GYEONGBOKGUNG PALACE GUIDE</small></div></div>
+      <p>Contenuti culturali sintetici per accompagnare la visita. Verifica sempre indicazioni e aree accessibili sul posto.</p>
+      <div class="footerLinks"><a href="https://www.royalpalace.go.kr/" target="_blank" rel="noreferrer">Sito ufficiale ↗</a><a href="#top">Torna su ↑</a></div>
+    </footer>
   </main>
   <script src="app.js" defer></script>
 </body>

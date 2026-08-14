@@ -15,7 +15,7 @@ let selected='geunjeongjeon', locationData=null, sheetOpen=true;
 const $=id=>document.getElementById(id);
 function distance(a,b){const r=6371000,p1=a.lat*Math.PI/180,p2=b.lat*Math.PI/180,dp=(b.lat-a.lat)*Math.PI/180,dl=(b.lng-a.lng)*Math.PI/180,h=Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;return 2*r*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));}
 function pos(lat,lng){return{left:`${(lng-bounds.west)/(bounds.east-bounds.west)*100}%`,top:`${(bounds.north-lat)/(bounds.north-bounds.south)*100}%`};}
-function choose(id){selected=id;sheetOpen=true;render();$('storySheet').scrollIntoView({behavior:'smooth',block:'end'});}
+function choose(id){selected=id;sheetOpen=true;render();$('storySheet').scrollIntoView({behavior:'smooth',block:'center'});}
 function render(){
   const p=places.find(x=>x.id===selected), index=places.indexOf(p), d=locationData?Math.round(distance(locationData,p)):null;
   document.querySelectorAll('.marker').forEach(el=>el.classList.toggle('selected',el.dataset.id===selected));
@@ -29,9 +29,9 @@ function buildMap(){places.forEach((p,i)=>{const b=document.createElement('butto
 function locate(){
   if(!navigator.geolocation){showError('La geolocalizzazione non è disponibile in questo browser.');return;}
   $('gpsButton').className='gpsButton loading';$('gpsLabel').textContent='Cerco…';
-  navigator.geolocation.getCurrentPosition(g=>{locationData={lat:g.coords.latitude,lng:g.coords.longitude,accuracy:g.coords.accuracy};$('gpsButton').className='gpsButton active';$('gpsLabel').textContent='Posizione';const closest=places.reduce((a,b)=>distance(locationData,a)<distance(locationData,b)?a:b);selected=closest.id;drawUser();render();},()=>showError('Non riesco a leggere il GPS. Puoi esplorare toccando i punti sulla mappa.'),{enableHighAccuracy:true,timeout:12000,maximumAge:5000});
+  navigator.geolocation.getCurrentPosition(g=>{locationData={lat:g.coords.latitude,lng:g.coords.longitude,accuracy:g.coords.accuracy};$('gpsButton').className='gpsButton active';$('gpsLabel').textContent='Posizione attiva';$('locationPrompt').textContent='Ti mostro il luogo più vicino';const closest=places.reduce((a,b)=>distance(locationData,a)<distance(locationData,b)?a:b);selected=closest.id;drawUser();render();$('mapArea').scrollIntoView({behavior:'smooth',block:'center'});},()=>showError('Non riesco a leggere il GPS. Puoi esplorare toccando i punti sulla mappa.'),{enableHighAccuracy:true,timeout:12000,maximumAge:5000});
 }
 function drawUser(){document.querySelector('.userPin')?.remove();const inside=locationData.lat>=bounds.south&&locationData.lat<=bounds.north&&locationData.lng>=bounds.west&&locationData.lng<=bounds.east;if(!inside){showError('Sei fuori dal perimetro del palazzo. La mappa resta esplorabile manualmente.');return;}const pin=document.createElement('div');pin.className='userPin';Object.assign(pin.style,pos(locationData.lat,locationData.lng));pin.innerHTML='<span></span><i>Tu sei qui</i>';$('mapArea').appendChild(pin);$('notice').hidden=true;}
-function showError(text){$('notice').textContent=text;$('notice').hidden=false;$('gpsButton').className='gpsButton';$('gpsLabel').textContent='Localizzami';}
-$('gpsButton').onclick=locate;$('sheetHandle').onclick=()=>{sheetOpen=!sheetOpen;render();};$('listenButton').onclick=()=>{const p=places.find(x=>x.id===selected);speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(`${p.name}. ${p.story} ${p.detail}`));};
+function showError(text){$('notice').textContent=text;$('notice').hidden=false;$('gpsButton').className='gpsButton';$('gpsLabel').textContent='Riprova';$('locationPrompt').textContent='Esplora la mappa manualmente';}
+$('gpsButton').onclick=locate;$('sheetHandle').onclick=()=>{sheetOpen=!sheetOpen;render();};$('listenButton').onclick=()=>{if(!('speechSynthesis' in window))return showError('L’audioguida non è disponibile in questo browser.');const p=places.find(x=>x.id===selected),utterance=new SpeechSynthesisUtterance(`${p.name}. ${p.story} ${p.detail}`);utterance.lang='it-IT';speechSynthesis.cancel();$('listenButton').classList.add('speaking');utterance.onend=()=>$('listenButton').classList.remove('speaking');speechSynthesis.speak(utterance);};
 buildMap();render();
