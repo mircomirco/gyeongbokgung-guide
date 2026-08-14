@@ -49,7 +49,7 @@ function addMapLayers(){
   map.addLayer({id:'palace-wall',type:'line',source:'palace-boundary',paint:{'line-color':'#8d3d32','line-width':2,'line-opacity':.58}},firstLabel);
   map.addSource('royal-route',{type:'geojson',data:routeLine});
   map.addLayer({id:'royal-route-line',type:'line',source:'royal-route',paint:{'line-color':'#bd5a45','line-width':2,'line-dasharray':[2,2],'line-opacity':.62}},firstLabel);
-  map.addSource('palace-structures',{type:'geojson',data:'palace-buildings.geojson'});
+  map.addSource('palace-structures',{type:'geojson',data:'palace-buildings.geojson?v=3d2'});
   map.addLayer({id:'context-buildings',type:'fill-extrusion',source:'palace-structures',filter:['!=',['get','historic'],true],minzoom:15,paint:{'fill-extrusion-color':'#91a89d','fill-extrusion-height':['get','height'],'fill-extrusion-base':0,'fill-extrusion-opacity':.58}},firstLabel);
   map.addLayer({id:'historic-buildings',type:'fill-extrusion',source:'palace-structures',filter:['==',['get','historic'],true],minzoom:15,paint:{'fill-extrusion-color':['case',['!=',['get','stop_id'],null],'#a94638','#315e53'],'fill-extrusion-height':['get','height'],'fill-extrusion-base':0,'fill-extrusion-opacity':.94}},firstLabel);
   map.addLayer({id:'selected-structure',type:'fill-extrusion',source:'palace-structures',filter:['==',['get','stop_id'],selected],paint:{'fill-extrusion-color':'#d5a75d','fill-extrusion-height':['+',['get','height'],2.2],'fill-extrusion-base':0,'fill-extrusion-opacity':1}},firstLabel);
@@ -65,10 +65,11 @@ function showMapError(){
 }
 
 function initMap(){
-  if(!window.maplibregl||!maplibregl.supported())return showMapError();
+  if(!window.maplibregl||typeof maplibregl.Map!=="function")return showMapError();
   const failTimer=setTimeout(()=>{if(!mapReady)showMapError();},15000);
   try{
     map=new maplibregl.Map({container:'map3d',style:'https://tiles.openfreemap.org/styles/liberty',center:[126.97683,37.57962],zoom:17.25,pitch:58,bearing:-12,minZoom:15,maxZoom:20,maxBounds:[[126.9708,37.5729],[126.9831,37.5863]],canvasContextAttributes:{antialias:true},attributionControl:true});
+    map.on('styleimagemissing',event=>{if(!map.hasImage(event.id))map.addImage(event.id,{width:1,height:1,data:new Uint8Array([0,0,0,0])});});
     map.dragRotate.enable();map.touchZoomRotate.enableRotation();
     map.on('load',()=>{clearTimeout(failTimer);mapReady=true;addMapLayers();addStopMarkers();$('mapLoading').classList.add('hidden');render();if(locationData)drawUser();});
     map.on('click','historic-buildings',event=>{const id=event.features?.[0]?.properties?.stop_id;if(id)choose(id,{focusMap:false,scroll:true,manual:true});});
